@@ -18,7 +18,7 @@ module.exports.loop = function ()
 	UpdateCreeps();
 }
 
-function UpdateCreeps()
+function UpdateCreeps ()
 {
 	for (var name in Game.creeps)
 	{
@@ -45,7 +45,7 @@ function UpdateCreeps()
 	}
 }
 
-function RespawnCreeps()
+function RespawnCreeps ()
 {
 	var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'Harvester');
 	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'Upgrader');
@@ -99,7 +99,7 @@ function RespawnCreeps()
 	}
 }
 
-function UpdateSpawnerText()
+function UpdateSpawnerText ()
 {
 	if (Game.spawns['Spawn1'].spawning)
 	{
@@ -111,7 +111,7 @@ function UpdateSpawnerText()
 	}
 }
 
-function GarbageCollection()
+function GarbageCollection ()
 {
 	for (var name in Memory.creeps)
 	{

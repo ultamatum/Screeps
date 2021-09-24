@@ -1,7 +1,7 @@
 var roleHarvester = {
 
 	/** @param {Creep} creep **/
-	run: function(creep)
+	run: function (creep)
 	{
 		if (creep.store.getFreeCapacity() > 0)
 		{

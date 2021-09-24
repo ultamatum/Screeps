@@ -2,5 +2,8 @@
     "indent-with-tabs": true,
     "preserve_newlines": true,
     "end-with-newline": true,
-    "brace-style": "expand,preserve-inline"
+    "brace-style": "expand,preserve-inline",
+    "space_after_named_function": true,
+    "space_after_anon_function": true,
+    "space_before_conditional": true
 }
