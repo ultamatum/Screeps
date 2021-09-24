@@ -1,0 +1,24 @@
+{
+  "name": "screeps",
+  "version": "0.0.1",
+  "description": "Ultamatum's Screeps project",
+  "main": "index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ultamatum/screeps.git"
+  },
+  "author": "Ultamatum",
+  "devDependencies": {
+    "git-describe": "^4.1.0",
+    "grunt": "^1.4.1",
+    "grunt-screeps": "^1.5.0",
+    "grunt-cli": "^1.4.3",
+    "grunt-contrib-copy": "^1.0.0",
+    "lodash": "^4.17.21",
+    "matchdep": "^2.0.0",
+    "module-concat": "^2.3.0",
+    "@types/lodash": "^4.14.173",
+    "@types/screeps": "^3.2.4"
+  }
+}
