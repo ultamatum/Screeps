@@ -1,6 +1,6 @@
-import { GetSpawns } from '../Helpers/SpawnHelpers';
+var GetSpawns = require('Helpers.SpawnHelpers');
 
-export const SpawnCreep = (room, creepJob, body) =>
+const SpawnCreep = (room, creepJob, body) =>
 {
 	// Check params
 	if (body.length === 0)
@@ -23,3 +23,5 @@ export const SpawnCreep = (room, creepJob, body) =>
 
 	return out;
 }
+
+module.exports = SpawnCreep;

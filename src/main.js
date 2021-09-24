@@ -1,8 +1,12 @@
 require('version')
-var roleHarvester = require('roles.Harvester');
-var roleUpgrader = require('roles.Upgrader');
-var roleBuilder = require('roles.Builder');
-var roleRepairer = require('roles.Repairer');
+var GetSpawns = require('Helpers.SpawnHelpers');
+var SpawnCreep = require('Managers.CreepSpawner');
+var { CreepJobs, CreepBuilder } = require('Managers.CreepBuilder');
+var roleMiner = require('Roles.Harvester');
+var roleUpgrader = require('Roles.Upgrader');
+var roleBuilder = require('Roles.Builder');
+var roleRepairer = require('Roles.Repairer');
+
 
 if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION)
 {
@@ -23,9 +27,9 @@ function UpdateCreeps ()
 	for (var name in Game.creeps)
 	{
 		var creep = Game.creeps[name];
-		if (creep.memory.role == 'Harvester' || creep.memory.role == 'harvester')
+		if (creep.memory.role == 'Miner')
 		{
-			roleHarvester.run(creep);
+			roleMiner.run(creep);
 		}
 
 		if (creep.memory.role == 'Upgrader')
@@ -47,36 +51,14 @@ function UpdateCreeps ()
 
 function RespawnCreeps ()
 {
-	var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'Harvester');
+	var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'Miner');
 	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'Upgrader');
 	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'Builder');
 	var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'Repairer')
 
-	if (harvesters.length < 10)
+	if (miners.length < 5)
 	{
-		Game.spawns['Spawn1'].room.memory.harvesterCount += 1;
-
-		var newName = 'Harvester' + Game.time;
-		console.log('Spawning new Harvester: ' + newName);
-		if (Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE], newName,
-			{
-				memory:
-				{
-					role: 'Harvester',
-					sourceId: Game.spawns['Spawn1'].room.memory.harvesterCount % Game.spawns['Spawn1'].room.find(FIND_SOURCES).length
-				}
-			}) == -6 &&
-			harvesters.length == 0)
-		{
-			// Enter emergency mode
-			// AKA set everything to harvester because we've run out and theres no energy left to make more
-
-			for (var name in Game.creeps)
-			{
-				var creep = Game.creeps[name];
-				creep.memory.role = 'Harvester';
-			}
-		};
+		SpawnCreep('sim', CreepJobs.MINER, CreepBuilder[CreepJobs.Miner](GetSpawns('sim')));
 	}
 	else if (repairers.length < 4)
 	{
