@@ -1,7 +1,8 @@
 // Returns all spawns in a specified room
 const GetSpawns = (room) =>
 {
-	return Game.rooms[room].find(FIND_MY_SPAWNS);
+	var spawns = Game.rooms[room].find(FIND_MY_SPAWNS);
+	return spawns;
 }
 
 module.exports = GetSpawns;

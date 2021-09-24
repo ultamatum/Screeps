@@ -1,7 +1,6 @@
 require('version')
-var GetSpawns = require('Helpers.SpawnHelpers');
+var Union = require('Managers.CreepBuilder');
 var SpawnCreep = require('Managers.CreepSpawner');
-var { CreepJobs, CreepBuilder } = require('Managers.CreepBuilder');
 var roleMiner = require('Roles.Harvester');
 var roleUpgrader = require('Roles.Upgrader');
 var roleBuilder = require('Roles.Builder');
@@ -54,30 +53,23 @@ function RespawnCreeps ()
 	var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'Miner');
 	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'Upgrader');
 	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'Builder');
-	var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'Repairer')
+	var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'Repairer');
 
 	if (miners.length < 5)
 	{
-		SpawnCreep('sim', CreepJobs.MINER, CreepBuilder[CreepJobs.Miner](GetSpawns('sim')));
+		SpawnCreep('sim', Union.CreepJobs.Miner, "", Union.CreepBuilder[Union.CreepJobs.Miner](Game.rooms['sim'].energyCapacityAvailable));
 	}
-	else if (repairers.length < 4)
+	else if (repairers.length < 1)
 	{
-		var newName = 'Repairer' + Game.time;
-		console.log('Spawning new Repairer: ' + newName);
-		Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE], newName, { memory: { role: 'Repairer' } });
-
+		SpawnCreep('sim', Union.CreepJobs.Repairer, "", Union.CreepBuilder[Union.CreepJobs.Repairer](Game.rooms['sim'].energyCapacityAvailable));
 	}
 	else if (upgraders.length < 2)
 	{
-		var newName = 'Upgrader' + Game.time;
-		console.log('Spawning new Upgrader: ' + newName);
-		Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE], newName, { memory: { role: 'Upgrader' } });
+		SpawnCreep('sim', Union.CreepJobs.Upgrader, "", Union.CreepBuilder[Union.CreepJobs.Upgrader](Game.rooms['sim'].energyCapacityAvailable));
 	}
-	else if (builders.length < 2)
+	else if (builders.length < 3)
 	{
-		var newName = 'Builder' + Game.time;
-		console.log('Spawning new Builder: ' + newName);
-		Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE], newName, { memory: { role: 'Builder' } });
+		SpawnCreep('sim', Union.CreepJobs.Builder, "", Union.CreepBuilder[Union.CreepJobs.Builder](Game.rooms['sim'].energyCapacityAvailable));
 	}
 }
 

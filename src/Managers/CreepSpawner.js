@@ -1,7 +1,8 @@
 var GetSpawns = require('Helpers.SpawnHelpers');
 
-const SpawnCreep = (room, creepJob, body) =>
+const SpawnCreep = (room, creepJob, target, body) =>
 {
+
 	// Check params
 	if (body.length === 0)
 		return ERR_NO_BODYPART;
@@ -12,14 +13,20 @@ const SpawnCreep = (room, creepJob, body) =>
 	if (!spawn)
 		return ERR_BUSY; // All spawns are currently busy
 
-	let out = spawn.spawnCreep(body, `${creepJob}-${room}-${Game.time % 10000}`,
+	let name = `${creepJob}-${room}-${Game.time % 10000}`;
+
+	let out = spawn.spawnCreep(body, name,
 	{
 		memory:
 		{
 			role: creepJob,
-			home: room
+			home: room,
+			target: target
 		}
 	});
+
+	if (out === OK)
+		console.log("Spawning: " + name);
 
 	return out;
 }
