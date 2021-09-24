@@ -1,8 +1,8 @@
 require('version')
-var roleHarvester = require('roles.harvester');
-var roleUpgrader = require('roles.upgrader');
-var roleBuilder = require('roles.builder');
-var roleRepairer = require('roles.repairer');
+var roleHarvester = require('roles.Harvester');
+var roleUpgrader = require('roles.Upgrader');
+var roleBuilder = require('roles.Builder');
+var roleRepairer = require('roles.Repairer');
 
 if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION)
 {
@@ -10,7 +10,7 @@ if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION)
 	console.log('New code updated')
 }
 
-module.exports.loop = function()
+module.exports.loop = function ()
 {
 	GarbageCollection();
 	RespawnCreeps();
