@@ -1,5 +1,6 @@
 {
     "indent-with-tabs": true,
     "preserve_newlines": true,
-    "end-with-newline": true
+    "end-with-newline": true,
+    "brace-style": "expand,preserve-inline"
 }

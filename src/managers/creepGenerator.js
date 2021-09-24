@@ -1,4 +1,3 @@
-var CreepGenerator = {
-}
+var CreepGenerator = {}
 
 module.exports = CreepGenerator;

@@ -1,5 +1,7 @@
 module.exports = function (grunt)
 {
+    require('time-grunt')(grunt);
+
     var config = require('./.screeps.json')
     var branch = grunt.option('branch') || config.branch;
     var token = grunt.option('token') || config.token;
@@ -83,7 +85,7 @@ module.exports = function (grunt)
         }
     })
 
-    grunt.registerTask('default', ['clean', 'copy:screeps', 'file_append:versioning', 'screeps']);
+    grunt.registerTask('default', ['clean', 'copy:screeps', 'file_append:versioning', 'jsbeautifier:modify', 'screeps']);
 
     grunt.registerTask('test', ['jsbeautifier:verify']);
     grunt.registerTask('pretty', ['jsbeautifier:modify'])

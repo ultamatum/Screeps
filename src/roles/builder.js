@@ -1,7 +1,7 @@
 var roleBuilder = {
 
 	/** @param {Creep} creep **/
-	run: function (creep)
+	run: function(creep)
 	{
 
 		if (creep.memory.building && creep.store[RESOURCE_ENERGY] == 0)
@@ -25,14 +25,16 @@ var roleBuilder = {
 				{
 					creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
 				}
-			} else
+			}
+			else
 			{
 				creep.moveTo(14, 34);
 			}
 		}
 		else
 		{
-			var energy = creep.room.find(FIND_STRUCTURES, {
+			var energy = creep.room.find(FIND_STRUCTURES,
+			{
 				filter: (structure) =>
 				{
 					return (structure.structureType == STRUCTURE_CONTAINER) &&
