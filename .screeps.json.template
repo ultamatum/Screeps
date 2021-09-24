@@ -1,7 +1,5 @@
 {
-    "email": "xxxxxxxxxxxxx",
-    "token": "xxxxxxxxxxxxx",
-    "password": "xxxxxxxxxxxxx",
+    "token": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx",
     "branch": "default",
     "ptr": "false"
 }

@@ -1,7 +1,14 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleRepairer = require('role.repairer');
+require('version')
+var roleHarvester = require('roles.harvester');
+var roleUpgrader = require('roles.upgrader');
+var roleBuilder = require('roles.builder');
+var roleRepairer = require('roles.repairer');
+
+if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION)
+{
+    Memory.SCRIPT_VERSION = SCRIPT_VERSION
+    console.log('New code updated')
+}
 
 module.exports.loop = function ()
 {
@@ -88,7 +95,7 @@ function RespawnCreeps()
         console.log('Spawning new Builder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE], newName,
             { memory: { role: 'Builder' } });
-    } 
+    }
 }
 
 function UpdateSpawnerText()
