@@ -4,7 +4,7 @@ var roleHauler = {
 	{
 		if (creep.store.getUsedCapacity() == 0)
 		{
-			var target = creep.pos.findClosestByPath(FIND_STRUCTURES,
+			var targets = creep.room.find(FIND_STRUCTURES,
 			{
 				filter: (structure) =>
 				{
@@ -12,8 +12,10 @@ var roleHauler = {
 				}
 			})
 
-			if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
-				creep.moveTo(target, { reusePath: 4, visualizePathStyle: { stroke: '#ffaa00' } });
+			targets = _.sortBy(targets, t => t.store.getUsedCapacity(RESOURCE_ENERGY)).reverse;
+
+			if (creep.withdraw(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
+				creep.moveTo(targets[0], { reusePath: 4, visualizePathStyle: { stroke: '#ffaa00' } });
 		}
 		else
 		{

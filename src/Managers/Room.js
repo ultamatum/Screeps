@@ -4,7 +4,7 @@ var RoomManager = {
 	run: function (room)
 	{
 		//room.memory.SetupComplete = false;
-		if (!room.memory.SetupComplete)
+		if (!room.memory.SetupComplete && room.controller.owner == "Ultamatum")
 		{
 			RoomSetup(room);
 		}
@@ -23,24 +23,29 @@ function RespawnCreeps (room)
 
 	var energyAvail = Game.rooms[room.name].energyCapacityAvailable;
 
+	if (miners.length == 0 && haulers.length == 0)
+	{
+		energyAvail = Game.rooms[room.name].energyAvailable;
+	}
+
 	if (miners.length < 7)
 	{
 		Spawner.SpawnCreep(room.name, Spawner.CreepJobs.Miner, "", Spawner.CreepBuilder[Spawner.CreepJobs.Miner](energyAvail));
 	}
-	else if (haulers.length < 2)
+	else if (haulers.length < 5)
 	{
 		Spawner.SpawnCreep(room.name, Spawner.CreepJobs.Hauler, "", Spawner.CreepBuilder[Spawner.CreepJobs.Hauler](energyAvail));
 	}
-	else if (upgraders.length < 1)
+	else if (upgraders.length < 4)
 	{
 		Spawner.SpawnCreep(room.name, Spawner.CreepJobs.Upgrader, "", Spawner.CreepBuilder[Spawner.CreepJobs.Upgrader](energyAvail));
 	}
-	else if (repairers.length < 1)
+	else if (repairers.length < 6)
 	{
 		Spawner.SpawnCreep(room.name, Spawner.CreepJobs.Repairer, "", Spawner.CreepBuilder[Spawner.CreepJobs.Repairer](energyAvail));
 	}
 
-	else if (builders.length < 7)
+	else if (builders.length < 2)
 	{
 		Spawner.SpawnCreep(room.name, Spawner.CreepJobs.Builder, "", Spawner.CreepBuilder[Spawner.CreepJobs.Builder](energyAvail));
 	}

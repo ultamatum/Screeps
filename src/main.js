@@ -15,6 +15,16 @@ if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION)
 
 module.exports.loop = function ()
 {
+	if (Game.cpu.bucket == 10000)
+	{
+		Game.cpu.generatePixel();
+	}
+
+	if (Game.cpu.bucket % 500 == 0)
+	{
+		console.log(Game.cpu.bucket)
+	}
+
 	GarbageCollection();
 	UpdateRooms();
 	RespawnCreeps();
