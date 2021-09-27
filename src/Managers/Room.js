@@ -40,7 +40,7 @@ function RespawnCreeps (room)
 	{
 		Spawner.SpawnCreep(room.name, Spawner.CreepJobs.Upgrader, "", Spawner.CreepBuilder[Spawner.CreepJobs.Upgrader](energyAvail));
 	}
-	else if (repairers.length < 6)
+	else if (repairers.length < 8)
 	{
 		Spawner.SpawnCreep(room.name, Spawner.CreepJobs.Repairer, "", Spawner.CreepBuilder[Spawner.CreepJobs.Repairer](energyAvail));
 	}

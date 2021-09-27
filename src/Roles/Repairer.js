@@ -36,7 +36,8 @@ var roleRepairer = {
 						{
 							return (((structure.hits / structure.hitsMax) * 100) <= 80) &&
 								(structure.structureType != STRUCTURE_WALL) &&
-								(structure.structureType != STRUCTURE_ROAD);
+								(structure.structureType != STRUCTURE_ROAD) &&
+								(structure.structureType != STRUCTURE_RAMPART);
 						}
 					});
 				}
@@ -47,7 +48,7 @@ var roleRepairer = {
 					{
 						filter: (structure) =>
 						{
-							return ((structure.structureType == STRUCTURE_ROAD) &&
+							return ((structure.structureType == STRUCTURE_ROAD || structure.structureType == STRUCTURE_RAMPART) &&
 								((structure.hits / structure.hitsMax) * 100) <= 60);
 						}
 					});
