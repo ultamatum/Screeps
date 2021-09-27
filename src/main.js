@@ -1,6 +1,6 @@
 require('version')
-var Union = require('Managers.CreepBuilder');
-var SpawnCreep = require('Managers.CreepSpawner');
+var Spawner = require('Managers.Spawner');
+var RoomManager = require('Managers.Room');
 var roleMiner = require('Roles.Harvester');
 var roleUpgrader = require('Roles.Upgrader');
 var roleBuilder = require('Roles.Builder');
@@ -16,9 +16,18 @@ if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION)
 module.exports.loop = function ()
 {
 	GarbageCollection();
+	UpdateRooms();
 	RespawnCreeps();
 	UpdateSpawnerText();
 	UpdateCreeps();
+}
+
+function UpdateRooms ()
+{
+	for (var roomName in Game.rooms)
+	{
+		RoomManager.run(Game.rooms[roomName]);
+	}
 }
 
 function UpdateCreeps ()
@@ -57,19 +66,19 @@ function RespawnCreeps ()
 
 	if (miners.length < 5)
 	{
-		SpawnCreep('sim', Union.CreepJobs.Miner, "", Union.CreepBuilder[Union.CreepJobs.Miner](Game.rooms['sim'].energyCapacityAvailable));
+		Spawner.SpawnCreep('sim', Spawner.CreepJobs.Miner, "", Spawner.CreepBuilder[Spawner.CreepJobs.Miner](Game.rooms['sim'].energyCapacityAvailable));
 	}
 	else if (repairers.length < 1)
 	{
-		SpawnCreep('sim', Union.CreepJobs.Repairer, "", Union.CreepBuilder[Union.CreepJobs.Repairer](Game.rooms['sim'].energyCapacityAvailable));
+		Spawner.SpawnCreep('sim', Spawner.CreepJobs.Repairer, "", Spawner.CreepBuilder[Spawner.CreepJobs.Repairer](Game.rooms['sim'].energyCapacityAvailable));
 	}
 	else if (upgraders.length < 2)
 	{
-		SpawnCreep('sim', Union.CreepJobs.Upgrader, "", Union.CreepBuilder[Union.CreepJobs.Upgrader](Game.rooms['sim'].energyCapacityAvailable));
+		Spawner.SpawnCreep('sim', Spawner.CreepJobs.Upgrader, "", Spawner.CreepBuilder[Spawner.CreepJobs.Upgrader](Game.rooms['sim'].energyCapacityAvailable));
 	}
 	else if (builders.length < 3)
 	{
-		SpawnCreep('sim', Union.CreepJobs.Builder, "", Union.CreepBuilder[Union.CreepJobs.Builder](Game.rooms['sim'].energyCapacityAvailable));
+		Spawner.SpawnCreep('sim', Spawner.CreepJobs.Builder, "", Spawner.CreepBuilder[Spawner.CreepJobs.Builder](Game.rooms['sim'].energyCapacityAvailable));
 	}
 }
 

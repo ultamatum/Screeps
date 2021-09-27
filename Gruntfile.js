@@ -22,8 +22,7 @@ module.exports = function (grunt)
     grunt.initConfig({
         screeps: {
             options: {
-                email: email,
-                password: password,
+                token: token,
                 branch: branch,
                 ptr: ptr
             },
@@ -86,7 +85,7 @@ module.exports = function (grunt)
         }
     })
 
-    grunt.registerTask('default', ['clean', 'copy:screeps', 'file_append:versioning', 'jsbeautifier:modify', 'screeps']);
+    grunt.registerTask('default', ['clean', 'jsbeautifier:modify', 'copy:screeps', 'file_append:versioning', 'screeps']);
 
     grunt.registerTask('test', ['jsbeautifier:verify']);
     grunt.registerTask('pretty', ['jsbeautifier:modify'])
