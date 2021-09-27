@@ -24,14 +24,28 @@ var roleMiner = {
 		}
 		else
 		{
-			var target = creep.pos.findClosestByPath(FIND_STRUCTURES,
+			if (_.filter(Game.creeps, (creep) => creep.memory.role == 'Hauler').length > 0)
 			{
-				filter: (structure) =>
-				{
-					return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_EXTENSION) &&
-						structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
-				}
-			});
+				var target = creep.pos.findClosestByPath(FIND_STRUCTURES,
+					{
+						filter: (structure) =>
+						{
+							return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_EXTENSION) &&
+								structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+						}
+					});
+			}
+			else
+			{
+				var target = creep.pos.findClosestByPath(FIND_STRUCTURES,
+					{
+						filter: (structure) =>
+						{
+							return (structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_EXTENSION) &&
+								structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+						}
+					});
+			}
 
 			if (target)
 			{

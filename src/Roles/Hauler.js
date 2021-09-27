@@ -4,7 +4,7 @@ var roleHauler = {
 	{
 		if (creep.store.getUsedCapacity() == 0)
 		{
-			var target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES,
+			var target = creep.pos.findClosestByPath(FIND_STRUCTURES,
 			{
 				filter: (structure) =>
 				{
@@ -17,7 +17,7 @@ var roleHauler = {
 		}
 		else
 		{
-			var target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES,
+			var target = creep.pos.findClosestByPath(FIND_STRUCTURES,
 			{
 				filter: (structure) =>
 				{
@@ -25,6 +25,14 @@ var roleHauler = {
 						structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
 				}
 			})
+
+			if (target)
+			{
+				if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
+				{
+					creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+				}
+			}
 		}
 	}
 }

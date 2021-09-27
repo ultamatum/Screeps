@@ -72,13 +72,12 @@ var roleRepairer = {
 						}
 					});
 
-				console.log(mostDamagedStructure)
-
 				mostDamagedStructure = _.sortBy(mostDamagedStructure, s => creep.pos.getRangeTo(s));
 
 				mostDamagedStructure = _.sortBy(mostDamagedStructure, s => (s.hits / s.hitsMax) * 100.0);
 
-				creep.memory.repairTarget = mostDamagedStructure[0].id;
+				if (mostDamagedStructure.length > 0)
+					creep.memory.repairTarget = mostDamagedStructure[0].id;
 			}
 
 			if (creep.repair(Game.getObjectById(creep.memory.repairTarget)) == ERR_NOT_IN_RANGE)

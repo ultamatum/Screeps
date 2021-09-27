@@ -77,7 +77,7 @@ function RespawnCreeps ()
 	}
 	else if (haulers.length < 2)
 	{
-		console.log(Spawner.SpawnCreep('sim', Spawner.CreepJobs.Hauler, "", Spawner.CreepBuilder[Spawner.CreepJobs.Hauler](Game.rooms['sim'].energyCapacityAvailable)));
+		Spawner.SpawnCreep('sim', Spawner.CreepJobs.Hauler, "", Spawner.CreepBuilder[Spawner.CreepJobs.Hauler](Game.rooms['sim'].energyCapacityAvailable));
 	}
 	else if (repairers.length < 1)
 	{
