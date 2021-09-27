@@ -1,10 +1,11 @@
 require('version')
 var Spawner = require('Managers.Spawner');
 var RoomManager = require('Managers.Room');
-var roleMiner = require('Roles.Harvester');
+var roleMiner = require('Roles.Miner');
 var roleUpgrader = require('Roles.Upgrader');
 var roleBuilder = require('Roles.Builder');
 var roleRepairer = require('Roles.Repairer');
+var roleHauler = require('Roles.Hauler');
 
 
 if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION)
@@ -54,6 +55,11 @@ function UpdateCreeps ()
 		{
 			roleRepairer.run(creep);
 		}
+
+		if (creep.memory.role == 'Hauler')
+		{
+			roleHauler.run(creep);
+		}
 	}
 }
 
@@ -63,10 +69,15 @@ function RespawnCreeps ()
 	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'Upgrader');
 	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'Builder');
 	var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'Repairer');
+	var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'Hauler');
 
 	if (miners.length < 5)
 	{
 		Spawner.SpawnCreep('sim', Spawner.CreepJobs.Miner, "", Spawner.CreepBuilder[Spawner.CreepJobs.Miner](Game.rooms['sim'].energyCapacityAvailable));
+	}
+	else if (haulers.length < 2)
+	{
+		console.log(Spawner.SpawnCreep('sim', Spawner.CreepJobs.Hauler, "", Spawner.CreepBuilder[Spawner.CreepJobs.Hauler](Game.rooms['sim'].energyCapacityAvailable)));
 	}
 	else if (repairers.length < 1)
 	{
@@ -76,7 +87,7 @@ function RespawnCreeps ()
 	{
 		Spawner.SpawnCreep('sim', Spawner.CreepJobs.Upgrader, "", Spawner.CreepBuilder[Spawner.CreepJobs.Upgrader](Game.rooms['sim'].energyCapacityAvailable));
 	}
-	else if (builders.length < 3)
+	else if (builders.length < 5)
 	{
 		Spawner.SpawnCreep('sim', Spawner.CreepJobs.Builder, "", Spawner.CreepBuilder[Spawner.CreepJobs.Builder](Game.rooms['sim'].energyCapacityAvailable));
 	}

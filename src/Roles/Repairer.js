@@ -17,9 +17,9 @@ var roleRepairer = {
 
 		if (creep.memory.repairing)
 		{
-			if (creep.memory.repairTarget == null || creep.memory.repairTarget ? false : Game.getObjectById(creep.memory.repairTarget).hits == Game.getObjectById(creep.memory.repairTarget).hitsMax)
+			if (!creep.memory.repairTarget || creep.memory.repairTarget ? true : Game.getObjectById(creep.memory.repairTarget).hits == Game.getObjectById(creep.memory.repairTarget).hitsMax)
 			{
-				mostDamagedStructure = creep.room.find(FIND_STRUCTURES,
+				var mostDamagedStructure = creep.room.find(FIND_STRUCTURES,
 				{
 					filter: (structure) =>
 					{
@@ -63,6 +63,17 @@ var roleRepairer = {
 						}
 					});
 
+				if (mostDamagedStructure.length == 0)
+					mostDamagedStructure = creep.room.find(FIND_STRUCTURES,
+					{
+						filter: (structure) =>
+						{
+							return structure.hits < structure.hitsMax;
+						}
+					});
+
+				console.log(mostDamagedStructure)
+
 				mostDamagedStructure = _.sortBy(mostDamagedStructure, s => creep.pos.getRangeTo(s));
 
 				mostDamagedStructure = _.sortBy(mostDamagedStructure, s => (s.hits / s.hitsMax) * 100.0);
@@ -72,8 +83,6 @@ var roleRepairer = {
 
 			if (creep.repair(Game.getObjectById(creep.memory.repairTarget)) == ERR_NOT_IN_RANGE)
 			{
-				console.log('Hye');
-
 				creep.moveTo(Game.getObjectById(creep.memory.repairTarget), { visualizePathStyle: { stroke: '#ffffff' } });
 			}
 		}

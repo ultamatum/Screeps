@@ -1,4 +1,4 @@
-var roleHarvester = {
+var roleMiner = {
 
 	/** @param {Creep} creep **/
 	run: function (creep)
@@ -9,7 +9,7 @@ var roleHarvester = {
 			{
 				if (creep.harvest(Game.getObjectById(creep.memory.target)) == ERR_NOT_IN_RANGE)
 				{
-					creep.moveTo(Game.getObjectById(creep.memory.target), { reusePath: 4, visualizePathStyle: { stroke: '#ffaa00' }, swampCost: 1 })
+					creep.moveTo(Game.getObjectById(creep.memory.target), { reusePath: 4, visualizePathStyle: { stroke: '#ffaa00' } })
 				}
 			}
 			else
@@ -18,7 +18,7 @@ var roleHarvester = {
 
 				if (creep.harvest(source) == ERR_NOT_IN_RANGE)
 				{
-					creep.moveTo(source, { reusePath: 4, visualizePathStyle: { stroke: '#ffaa00', swampCost: 1 } });
+					creep.moveTo(source, { reusePath: 4, visualizePathStyle: { stroke: '#ffaa00' } });
 				}
 			}
 		}
@@ -44,4 +44,4 @@ var roleHarvester = {
 	}
 };
 
-module.exports = roleHarvester;
+module.exports = roleMiner;
