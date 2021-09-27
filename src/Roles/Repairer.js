@@ -17,60 +17,60 @@ var roleRepairer = {
 
 		if (creep.memory.repairing)
 		{
-			if (!creep.memory.repairTarget || creep.memory.repairTarget ? true : Game.getObjectById(creep.memory.repairTarget).hits == Game.getObjectById(creep.memory.repairTarget).hitsMax)
+			if (!creep.memory.repairTarget || (Game.getObjectById(creep.memory.repairTarget).hits == Game.getObjectById(creep.memory.repairTarget).hitsMax))
 			{
 				var mostDamagedStructure = creep.room.find(FIND_STRUCTURES,
-				{
-					filter: (structure) =>
 					{
-						return (((structure.hits / structure.hitsMax) * 100) <= 10) &&
-							(structure.structureType != STRUCTURE_WALL);
-					}
-				});
+						filter: (structure) =>
+						{
+							return (((structure.hits / structure.hitsMax) * 100) <= 10) &&
+								(structure.structureType != STRUCTURE_WALL);
+						}
+					});
 
 				if (mostDamagedStructure.length == 0)
 				{
 					mostDamagedStructure = creep.room.find(FIND_STRUCTURES,
-					{
-						filter: (structure) =>
 						{
-							return (((structure.hits / structure.hitsMax) * 100) <= 80) &&
-								(structure.structureType != STRUCTURE_WALL) &&
-								(structure.structureType != STRUCTURE_ROAD);
-						}
-					});
+							filter: (structure) =>
+							{
+								return (((structure.hits / structure.hitsMax) * 100) <= 80) &&
+									(structure.structureType != STRUCTURE_WALL) &&
+									(structure.structureType != STRUCTURE_ROAD);
+							}
+						});
 				}
 
 				if (mostDamagedStructure.length == 0)
 				{
 					mostDamagedStructure = creep.room.find(FIND_STRUCTURES,
-					{
-						filter: (structure) =>
 						{
-							return ((structure.structureType == STRUCTURE_ROAD) &&
-								((structure.hits / structure.hitsMax) * 100) <= 60);
-						}
-					});
+							filter: (structure) =>
+							{
+								return ((structure.structureType == STRUCTURE_ROAD) &&
+									((structure.hits / structure.hitsMax) * 100) <= 60);
+							}
+						});
 				}
 
 				if (mostDamagedStructure.length == 0)
 					mostDamagedStructure = creep.room.find(FIND_STRUCTURES,
-					{
-						filter: (structure) =>
 						{
-							return ((structure.structureType == STRUCTURE_WALL) &&
-								structure.hits < structure.hitsMax);
-						}
-					});
+							filter: (structure) =>
+							{
+								return ((structure.structureType == STRUCTURE_WALL) &&
+									structure.hits < structure.hitsMax);
+							}
+						});
 
 				if (mostDamagedStructure.length == 0)
 					mostDamagedStructure = creep.room.find(FIND_STRUCTURES,
-					{
-						filter: (structure) =>
 						{
-							return structure.hits < structure.hitsMax;
-						}
-					});
+							filter: (structure) =>
+							{
+								return structure.hits < structure.hitsMax;
+							}
+						});
 
 				mostDamagedStructure = _.sortBy(mostDamagedStructure, s => creep.pos.getRangeTo(s));
 
@@ -88,13 +88,13 @@ var roleRepairer = {
 		else
 		{
 			var energy = creep.room.find(FIND_STRUCTURES,
-			{
-				filter: (structure) =>
 				{
-					return (structure.structureType == STRUCTURE_CONTAINER) &&
-						structure.store[RESOURCE_ENERGY] >= 100;
-				}
-			});
+					filter: (structure) =>
+					{
+						return (structure.structureType == STRUCTURE_CONTAINER) &&
+							structure.store[RESOURCE_ENERGY] >= 100;
+					}
+				});
 
 			energy = _.sortBy(energy, s => creep.pos.getRangeTo(s));
 

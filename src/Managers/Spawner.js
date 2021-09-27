@@ -24,7 +24,7 @@ const CreepBuilder = {
 			return [].concat(Array(workParts).fill(WORK), Array(moveParts).fill(MOVE), Array(carryParts).fill(CARRY));
 		}
 	},
-	[CreepJobs.Hauler]: (energy) =>
+	[CreepJobs.Hauler]: (energy, maxCarryParts = 32) =>
 	{
 		if (energy < (BODYPART_COST[MOVE] + (BODYPART_COST[CARRY] * 2)))
 		{
@@ -32,9 +32,10 @@ const CreepBuilder = {
 		}
 		else
 		{
-			const segments = Math.min(16, 25, Math.floor((energy / 2) / 150))
-
-			return Array(segments).fill([CARRY, CARRY, MOVE]).flat();
+			// 2/3 CARRY, 1/3 MOVE
+			let moveParts = Math.min(16, Math.ceil(Math.max(1, maxCarryParts) / 2), Math.floor(energy / 3 / 50));
+			let carryParts = Math.min(32, Math.max(1, maxCarryParts), 2 * moveParts);
+			return [].concat(Array(carryParts).fill(CARRY), Array(moveParts).fill(MOVE));
 		}
 	},
 	[CreepJobs.Upgrader]: (energy) =>
