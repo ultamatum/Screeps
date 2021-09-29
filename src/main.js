@@ -17,12 +17,8 @@ module.exports.loop = function ()
 {
 	if (Game.cpu.bucket == 10000)
 	{
+		console.log("Generated Pixel")
 		Game.cpu.generatePixel();
-	}
-
-	if (Game.cpu.bucket % 500 == 0)
-	{
-		console.log(Game.cpu.bucket)
 	}
 
 	GarbageCollection();

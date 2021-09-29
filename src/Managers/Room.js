@@ -28,7 +28,7 @@ function RespawnCreeps (room)
 		energyAvail = Game.rooms[room.name].energyAvailable;
 	}
 
-	if (miners.length < 7)
+	if (miners.length < 4)
 	{
 		Spawner.SpawnCreep(room.name, Spawner.CreepJobs.Miner, "", Spawner.CreepBuilder[Spawner.CreepJobs.Miner](energyAvail));
 	}

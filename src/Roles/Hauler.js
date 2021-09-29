@@ -8,11 +8,12 @@ var roleHauler = {
 			{
 				filter: (structure) =>
 				{
-					return structure.structureType == STRUCTURE_CONTAINER;
+					return structure.structureType == STRUCTURE_CONTAINER &&
+						structure.store[RESOURCE_ENERGY] >= 0;
 				}
 			})
 
-			targets = _.sortBy(targets, t => t.store.getUsedCapacity(RESOURCE_ENERGY)).reverse;
+			targets = _.sortBy(targets, t => t.store.getFreeCapacity(RESOURCE_ENERGY));
 
 			if (creep.withdraw(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
 				creep.moveTo(targets[0], { reusePath: 4, visualizePathStyle: { stroke: '#ffaa00' } });

@@ -106,16 +106,16 @@ var roleRepairer = {
 					creep.moveTo(energy[0], { visualizePathStyle: { stroke: '#ffaa00' } })
 				}
 			}
-			else
-			{
-				var sources = creep.room.find(FIND_SOURCES);
-				sources = _.sortBy(sources, s => creep.pos.getRangeTo(s));
-
-				if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE)
-				{
-					creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ff0000' } });
-				}
-			}
+			//else
+			//{
+			//	var sources = creep.room.find(FIND_SOURCES);
+			//	sources = _.sortBy(sources, s => creep.pos.getRangeTo(s));
+			//
+			//	if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE)
+			//	{
+			//		creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ff0000' } });
+			//	}
+			//}
 		}
 	}
 };
