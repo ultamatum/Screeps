@@ -1,19 +1,336 @@
 var Spawner = require('Managers.Spawner')
+const roomLayout = {
+	name: '',
+	shard: 'shard0',
+	rcl: 8,
+	buildings:
+	{
+		spawn:
+		{
+			pos: [
+				{ x: 0, y: -2 },
+				{ x: -2, y: 0 },
+				{ x: 2, y: 0 },
+			],
+		},
+		tower:
+		{
+			pos: [
+				{ x: -1, y: 0 },
+				{ x: -1, y: -1 },
+				{ x: 0, y: -1 },
+				{ x: 1, y: -1 },
+				{ x: 1, y: 0 },
+				{ x: 0, y: 1 },
+			],
+		},
+		road:
+		{
+			pos: [
+				{ x: -3, y: 0 },
+				{ x: -2, y: -1 },
+				{ x: -1, y: -2 },
+				{ x: 0, y: -3 },
+				{ x: 1, y: -2 },
+				{ x: 2, y: -1 },
+				{ x: 3, y: 0 },
+				{ x: 2, y: 1 },
+				{ x: 0, y: 0 },
+				{ x: -1, y: 1 },
+				{ x: 1, y: 1 },
+				{ x: -2, y: 1 },
+				{ x: -1, y: 2 },
+				{ x: 1, y: 2 },
+				{ x: 0, y: 3 },
+				{ x: -1, y: 3 },
+				{ x: 1, y: 3 },
+				{ x: -1, y: 4 },
+				{ x: 1, y: 4 },
+				{ x: -4, y: 1 },
+				{ x: -5, y: 2 },
+				{ x: -4, y: -1 },
+				{ x: -5, y: -2 },
+				{ x: -4, y: -3 },
+				{ x: -3, y: -4 },
+				{ x: -2, y: -5 },
+				{ x: -1, y: -4 },
+				{ x: 1, y: -4 },
+				{ x: 2, y: -5 },
+				{ x: 3, y: -4 },
+				{ x: 4, y: -3 },
+				{ x: 5, y: -2 },
+				{ x: 4, y: -1 },
+				{ x: 6, y: -1 },
+				{ x: 6, y: 0 },
+				{ x: 6, y: 1 },
+				{ x: 6, y: -3 },
+				{ x: 4, y: 1 },
+				{ x: 5, y: 2 },
+				{ x: 6, y: 3 },
+				{ x: 1, y: -6 },
+				{ x: 0, y: -6 },
+				{ x: -1, y: -6 },
+				{ x: -6, y: -1 },
+				{ x: -6, y: 0 },
+				{ x: -6, y: 1 },
+				{ x: -4, y: 3 },
+				{ x: -3, y: 4 },
+				{ x: -2, y: 5 },
+				{ x: -3, y: 6 },
+				{ x: -4, y: 6 },
+				{ x: -5, y: 6 },
+				{ x: -1, y: 6 },
+				{ x: -6, y: 5 },
+				{ x: -6, y: 4 },
+				{ x: -6, y: 3 },
+				{ x: -6, y: -3 },
+				{ x: -6, y: -4 },
+				{ x: -6, y: -5 },
+				{ x: -5, y: -6 },
+				{ x: -3, y: -6 },
+				{ x: -4, y: -6 },
+				{ x: 3, y: -6 },
+				{ x: 4, y: -6 },
+				{ x: 5, y: -6 },
+				{ x: 6, y: -5 },
+				{ x: 6, y: -4 },
+				{ x: 4, y: 3 },
+				{ x: 3, y: 4 },
+				{ x: 2, y: 5 },
+				{ x: 1, y: 6 },
+				{ x: 0, y: 6 },
+				{ x: 3, y: 6 },
+				{ x: 4, y: 6 },
+				{ x: 5, y: 6 },
+				{ x: 6, y: 5 },
+				{ x: 6, y: 4 },
+			],
+		},
+		storage:
+		{
+			pos: [{ x: 0, y: 4 }],
+		},
+		link:
+		{
+			pos: [{ x: -2, y: 2 }],
+		},
+		extension:
+		{
+			pos: [
+				{ x: -3, y: -1 },
+				{ x: -4, y: -2 },
+				{ x: -3, y: -2 },
+				{ x: -2, y: -2 },
+				{ x: -3, y: -3 },
+				{ x: -2, y: -3 },
+				{ x: -1, y: -3 },
+				{ x: -2, y: -4 },
+				{ x: 1, y: -3 },
+				{ x: 2, y: -2 },
+				{ x: 3, y: -1 },
+				{ x: 3, y: -2 },
+				{ x: 2, y: -3 },
+				{ x: 2, y: -4 },
+				{ x: 3, y: -3 },
+				{ x: 4, y: -2 },
+				{ x: 0, y: -5 },
+				{ x: 0, y: -4 },
+				{ x: -1, y: -5 },
+				{ x: 1, y: -5 },
+				{ x: -5, y: -1 },
+				{ x: -5, y: 0 },
+				{ x: -5, y: 1 },
+				{ x: -4, y: 0 },
+				{ x: 4, y: 0 },
+				{ x: 5, y: -1 },
+				{ x: 5, y: 0 },
+				{ x: 5, y: 1 },
+				{ x: -3, y: 1 },
+				{ x: -3, y: 2 },
+				{ x: -3, y: 3 },
+				{ x: -4, y: 2 },
+				{ x: -2, y: 3 },
+				{ x: -2, y: 4 },
+				{ x: -5, y: -3 },
+				{ x: -5, y: -4 },
+				{ x: -5, y: -5 },
+				{ x: -4, y: -5 },
+				{ x: -3, y: -5 },
+				{ x: -4, y: -4 },
+				{ x: 3, y: -5 },
+				{ x: 4, y: -5 },
+				{ x: 5, y: -5 },
+				{ x: 5, y: -4 },
+				{ x: 5, y: -3 },
+				{ x: 4, y: -4 },
+				{ x: -5, y: 3 },
+				{ x: -4, y: 4 },
+				{ x: -3, y: 5 },
+				{ x: -5, y: 4 },
+				{ x: -5, y: 5 },
+				{ x: -4, y: 5 },
+				{ x: -2, y: 6 },
+				{ x: -6, y: -2 },
+				{ x: -2, y: -6 },
+				{ x: 2, y: -6 },
+				{ x: 6, y: -2 },
+				{ x: 6, y: 2 },
+				{ x: -6, y: 2 },
+				{ x: 2, y: 6 },
+			],
+		},
+		terminal:
+		{
+			pos: [{ x: 2, y: 2 }],
+		},
+		lab:
+		{
+			pos: [
+				{ x: 2, y: 4 },
+				{ x: 2, y: 3 },
+				{ x: 3, y: 3 },
+				{ x: 3, y: 2 },
+				{ x: 4, y: 2 },
+				{ x: 3, y: 5 },
+				{ x: 4, y: 5 },
+				{ x: 4, y: 4 },
+				{ x: 5, y: 4 },
+				{ x: 5, y: 3 },
+			],
+		},
+		observer:
+		{
+			pos: [{ x: 5, y: 5 }],
+		},
+		powerSpawn:
+		{
+			pos: [{ x: 0, y: 2 }],
+		},
+		nuker:
+		{
+			pos: [{ x: 0, y: 5 }],
+		},
+		rampart:
+		{
+			pos: [
+				{ x: -6, y: 3 },
+				{ x: -6, y: 2 },
+				{ x: -6, y: 1 },
+				{ x: -6, y: 0 },
+				{ x: -6, y: -1 },
+				{ x: -6, y: -2 },
+				{ x: -6, y: -3 },
+				{ x: -6, y: -4 },
+				{ x: -6, y: -5 },
+				{ x: -5, y: -5 },
+				{ x: -5, y: -6 },
+				{ x: -4, y: -6 },
+				{ x: -3, y: -6 },
+				{ x: -2, y: -6 },
+				{ x: -1, y: -6 },
+				{ x: 0, y: -6 },
+				{ x: 1, y: -6 },
+				{ x: 2, y: -6 },
+				{ x: 3, y: -6 },
+				{ x: 4, y: -6 },
+				{ x: 5, y: -6 },
+				{ x: 5, y: -5 },
+				{ x: 6, y: -5 },
+				{ x: 6, y: -4 },
+				{ x: 6, y: -3 },
+				{ x: 6, y: -2 },
+				{ x: 6, y: -1 },
+				{ x: 6, y: 0 },
+				{ x: 6, y: 1 },
+				{ x: 6, y: 2 },
+				{ x: 6, y: 3 },
+				{ x: 6, y: 4 },
+				{ x: 6, y: 5 },
+				{ x: 5, y: 5 },
+				{ x: 5, y: 6 },
+				{ x: 4, y: 6 },
+				{ x: 3, y: 6 },
+				{ x: 2, y: 6 },
+				{ x: 1, y: 6 },
+				{ x: 0, y: 6 },
+				{ x: -1, y: 6 },
+				{ x: -2, y: 6 },
+				{ x: -3, y: 6 },
+				{ x: -4, y: 6 },
+				{ x: -5, y: 6 },
+				{ x: -5, y: 5 },
+				{ x: -6, y: 5 },
+				{ x: -6, y: 4 },
+			],
+		},
+	},
+}
+
 var RoomManager = {
 	/** @param {Room} room **/
 	run: function (room)
 	{
+		var currentTick = Game.time
+
+		if (!room.memory.foundSpace)
+		{
+			room.memory.foundSpace = false
+		}
+
+		if (
+			room.memory.checkx == undefined &&
+			room.memory.checky == undefined
+		)
+		{
+			room.memory.checkx = 0
+			room.memory.checky = 0
+		}
+
 		//room.memory.SetupComplete = false;
 		if (
 			!room.memory.SetupComplete &&
-			room.controller.owner == 'Ultamatum'
+			room.controller.owner.username == 'Ultamatum'
 		)
 		{
+			//console.log('Updating Room')
 			RoomSetup(room)
 		}
 
+		if (currentTick % 1000 == 0)
+		{
+			console.log('Updating Room Layout')
+			SetupRoomLayout(room)
+		}
+
+		if (currentTick % 333 == 0)
+		{
+			console.log('Building Roads')
+			BuildRoads(room)
+		}
+
 		RespawnCreeps(room)
+
+		UpdateSpawnerText(room)
 	},
+}
+
+function UpdateSpawnerText (room)
+{
+	var spawns = room.find(FIND_MY_SPAWNS)
+
+	for (var spawn in spawns)
+	{
+		if (spawns[spawn].spawning)
+		{
+			var spawningCreep =
+				Game.creeps[spawns[spawn].spawning.name]
+			spawns[spawn].room.visual.text(
+				'🛠️' + spawningCreep.memory.role,
+				spawns[spawn].pos.x + 1,
+				spawns[spawn].pos.y, { align: 'left', opacity: 0.8 }
+			)
+		}
+	}
 }
 
 function RespawnCreeps (room)
@@ -60,7 +377,7 @@ function RespawnCreeps (room)
 	}
 	else if (
 		haulers.length <
-		room.find(FIND_STRUCTURES,
+		room.find(FIND_MY_STRUCTURES,
 		{
 			filter: (structure) =>
 			{
@@ -69,7 +386,8 @@ function RespawnCreeps (room)
 					STRUCTURE_CONTAINER
 				)
 			},
-		}).length
+		}).length +
+		1
 	)
 	{
 		Spawner.SpawnCreep(
@@ -92,18 +410,17 @@ function RespawnCreeps (room)
 			](energyAvail)
 		)
 	}
-	else if (repairers.length < 1)
-	{
-		Spawner.SpawnCreep(
-			room.name,
-			Spawner.CreepJobs.Repairer,
-			'',
-			Spawner.CreepBuilder[
-				Spawner.CreepJobs.Repairer
-			](energyAvail)
-		)
-	}
-	else if (builders.length < 2)
+	else if (
+		builders.length <
+		(room.find(FIND_MY_STRUCTURES,
+			{
+				filter: { structureType: STRUCTURE_CONTAINER },
+			}).length < 2 ?
+			4 :
+			room.find(FIND_CONSTRUCTION_SITES).length /
+			10 +
+			1)
+	)
 	{
 		Spawner.SpawnCreep(
 			room.name,
@@ -114,90 +431,382 @@ function RespawnCreeps (room)
 			)
 		)
 	}
+	else if (
+		repairers.length <
+		room.find(FIND_STRUCTURES,
+		{
+			filter: (object) =>
+				object.hits < object.hitsMax,
+		}).length /
+		10 +
+		1
+	)
+	{
+		Spawner.SpawnCreep(
+			room.name,
+			Spawner.CreepJobs.Repairer,
+			'',
+			Spawner.CreepBuilder[
+				Spawner.CreepJobs.Repairer
+			](energyAvail)
+		)
+	}
 }
 
 function RoomSetup (room)
 {
-	var sources = room.find(FIND_SOURCES)
-	var spawns = room.find(FIND_MY_SPAWNS)
-
-	for (var source in sources)
+	// Find an empty 12x12 square to build the room in
+	if (room.memory.foundSpace == false)
 	{
+		FindSpace(room)
+	}
+
+	if (room.memory.foundSpace)
+	{
+		SetupRoomLayout(room)
+		BuildContainers(room)
+		BuildRoads(room)
+
+		room.memory.SetupComplete = true
+	}
+}
+
+function FindSpace (room)
+{
+	var checkx = room.memory.checkx
+	var checky = room.memory.checky
+
+	var area = room
+		.lookAtArea(
+			checky,
+			checkx,
+			checky + 12,
+			checkx + 12,
+			true
+		)
+		.filter(
+			(look) =>
+			look.terrain != 'plain' &&
+			look.terrain != 'swamp' &&
+			look.type != 'creep'
+		)
+
+	if (area.length == 0)
+	{
+		room.memory.foundSpace = true
+		room.memory.structureCenter = {
+			x: checkx + 6,
+			y: checky + 6,
+		}
+	}
+	else
+	{
+		room.memory.checkx++
+		if (room.memory.checkx > 37)
+		{
+			room.memory.checky++
+			room.memory.checkx = 0
+		}
+	}
+
+	if (checky > 37)
+	{
+		console.log('No space found for room')
+		return
+	}
+}
+
+function SetupRoomLayout (room)
+{
+	for (
+		var i = 0; i < roomLayout.buildings.spawn.pos.length; i++
+	)
+	{
+		var pos = roomLayout.buildings.spawn.pos[i]
+
+		room.createConstructionSite(
+			pos.x + room.memory.structureCenter.x,
+			pos.y + room.memory.structureCenter.y,
+			STRUCTURE_SPAWN
+		)
+	}
+
+	if (room.controller.level >= 3)
+	{
+		for (
+			var i = 0; i < roomLayout.buildings.tower.pos.length; i++
+		)
+		{
+			var pos = roomLayout.buildings.tower.pos[i]
+
+			room.createConstructionSite(
+				pos.x + room.memory.structureCenter.x,
+				pos.y + room.memory.structureCenter.y,
+				STRUCTURE_TOWER
+			)
+		}
+	}
+
+	for (
+		var i = 0; i < roomLayout.buildings.road.pos.length; i++
+	)
+	{
+		var pos = roomLayout.buildings.road.pos[i]
+
+		room.createConstructionSite(
+			pos.x + room.memory.structureCenter.x,
+			pos.y + room.memory.structureCenter.y,
+			STRUCTURE_ROAD
+		)
+	}
+
+	if (room.controller.level >= 4)
+	{
+		room.createConstructionSite(
+			roomLayout.buildings.storage.pos.x +
+			room.memory.structureCenter.x,
+			roomLayout.buildings.storage.pos.y +
+			room.memory.structureCenter.y,
+			STRUCTURE_STORAGE
+		)
+	}
+
+	if (room.controller.level >= 5)
+	{
+		room.createConstructionSite(
+			roomLayout.buildings.link.pos.x +
+			room.memory.structureCenter.x,
+			roomLayout.buildings.link.pos.y +
+			room.memory.structureCenter.y,
+			STRUCTURE_LINK
+		)
+	}
+
+	for (
+		var i = 0; i < roomLayout.buildings.extension.pos.length; i++
+	)
+	{
+		var pos = roomLayout.buildings.extension.pos[i]
+
+		room.createConstructionSite(
+			pos.x + room.memory.structureCenter.x,
+			pos.y + room.memory.structureCenter.y,
+			STRUCTURE_EXTENSION
+		)
+	}
+
+	if (room.controller.level >= 6)
+	{
+		room.createConstructionSite(
+			roomLayout.buildings.terminal.pos.x +
+			room.memory.structureCenter.x,
+			roomLayout.buildings.terminal.pos.y +
+			room.memory.structureCenter.y,
+			STRUCTURE_TERMINAL
+		)
+	}
+
+	if (room.controller.level >= 6)
+	{
+		for (
+			var i = 0; i < roomLayout.buildings.lab.pos.length; i++
+		)
+		{
+			var pos = roomLayout.buildings.lab.pos[i]
+
+			room.createConstructionSite(
+				pos.x + room.memory.structureCenter.x,
+				pos.y + room.memory.structureCenter.y,
+				STRUCTURE_LAB
+			)
+		}
+	}
+
+	if (room.controller.level >= 8)
+	{
+		room.createConstructionSite(
+			roomLayout.buildings.observer.pos.x +
+			room.memory.structureCenter.x,
+			roomLayout.buildings.observer.pos.y +
+			room.memory.structureCenter.y,
+			STRUCTURE_OBSERVER
+		)
+	}
+
+	if (room.controller.level >= 8)
+	{
+		room.createConstructionSite(
+			roomLayout.buildings.powerSpawn.pos.x +
+			room.memory.structureCenter.x,
+			roomLayout.buildings.powerSpawn.pos.y +
+			room.memory.structureCenter.y,
+			STRUCTURE_POWER_SPAWN
+		)
+	}
+
+	if (room.controller.level >= 8)
+	{
+		room.createConstructionSite(
+			roomLayout.buildings.nuker.pos.x +
+			room.memory.structureCenter.x,
+			roomLayout.buildings.nuker.pos.y +
+			room.memory.structureCenter.y,
+			STRUCTURE_NUKER
+		)
+	}
+
+	for (
+		var i = 0; i < roomLayout.buildings.rampart.pos.length; i++
+	)
+	{
+		var pos = roomLayout.buildings.rampart.pos[i]
+
+		room.createConstructionSite(
+			pos.x + room.memory.structureCenter.x,
+			pos.y + room.memory.structureCenter.y,
+			STRUCTURE_RAMPART
+		)
+	}
+}
+
+function BuildContainers (room)
+{
+	var sources = room.find(FIND_SOURCES)
+
+	for (var i in sources)
+	{
+		var source = sources[i]
+
 		var path = room.findPath(
-			spawns[0].pos,
-			sources[source].pos,
+			source.pos,
+			new RoomPosition(
+				room.memory.structureCenter.x,
+				room.memory.structureCenter.y,
+				room.name
+			),
 			{
 				ignoreCreeps: true,
 				swampCost: 1,
 			}
 		)
 
-		for (var step in path)
-		{
-			var canBuild = true
-			room.lookAt(path[step].x, path[step].y).forEach(
-				function (object)
-				{
-					if (
-						object.type ==
-						LOOK_CONSTRUCTION_SITES ||
-						object.type == LOOK_DEPOSITS ||
-						object.type == LOOK_STRUCTURES ||
-						object.type == LOOK_MINERALS ||
-						object.type == LOOK_DEPOSITS ||
-						object.type == LOOK_SOURCES
-					)
-						canBuild = false
-				}
-			)
+		room.createConstructionSite(
+			path[1].x,
+			path[1].y,
+			STRUCTURE_CONTAINER
+		)
+	}
+}
 
-			if (canBuild)
-				room.createConstructionSite(
-					path[step].x,
-					path[step].y,
-					STRUCTURE_ROAD
-				)
-		}
+function BuildRoads (room)
+{
+	var sources = room.find(FIND_SOURCES)
+
+	for (var i in sources)
+	{
+		// Find shortest path to one of the entrances
+		BuildShortestPathToEntrance(room, sources[i].pos)
 	}
 
-	var path = room.findPath(
-		spawns[0].pos,
-		room.controller.pos,
-		{
-			ignoreCreeps: true,
-			swampCost: 1,
-		}
-	)
+	BuildShortestPathToEntrance(room, room.controller.pos)
+}
 
-	for (var step in path)
+function BuildShortestPathToEntrance (room, from)
+{
+	var entrances = [
 	{
-		console.log('step')
-		var canBuild = true
-		room.lookAt(path[step].x, path[step].y).forEach(
-			function (object)
+		pos: new RoomPosition(
+			room.memory.structureCenter.x + 7,
+			room.memory.structureCenter.y,
+			room.name
+		),
+		range: 0,
+	},
+	{
+		pos: new RoomPosition(
+			room.memory.structureCenter.x - 7,
+			room.memory.structureCenter.y,
+			room.name
+		),
+		range: 0,
+	},
+	{
+		pos: new RoomPosition(
+			room.memory.structureCenter.x,
+			room.memory.structureCenter.y + 7,
+			room.name
+		),
+		range: 0,
+	},
+	{
+		pos: new RoomPosition(
+			room.memory.structureCenter.x,
+			room.memory.structureCenter.y - 7,
+			room.name
+		),
+		range: 0,
+	}, ]
+
+	let path = PathFinder.search(from, entrances,
+	{
+		plainCost: 2,
+		swampCost: 1,
+		roomCallback: function (roomName)
+		{
+			let room = Game.rooms[roomName]
+			if (!room) return false
+			let costs = new PathFinder.CostMatrix()
+
+			room.find(FIND_STRUCTURES).forEach(function (
+				structure
+			)
 			{
 				if (
-					object.type ==
-					LOOK_CONSTRUCTION_SITES ||
-					object.type == LOOK_DEPOSITS ||
-					object.type == LOOK_STRUCTURES ||
-					object.type == LOOK_MINERALS ||
-					object.type == LOOK_DEPOSITS ||
-					object.type == LOOK_SOURCES
+					structure.structureType ===
+					STRUCTURE_ROAD
 				)
-					canBuild = false
-			}
-		)
+				{
+					costs.set(
+						structure.pos.x,
+						structure.pos.y,
+						1
+					)
+				}
+				else if (
+					structure.structureType !==
+					STRUCTURE_CONTAINER &&
+					structure.structureType !==
+					STRUCTURE_RAMPART
+				)
+				{
+					costs.set(
+						structure.pos.x,
+						structure.pos.y,
+						0xff
+					)
+				}
+			})
 
-		if (canBuild)
-			room.createConstructionSite(
-				path[step].x,
-				path[step].y,
-				STRUCTURE_ROAD
+			room.find(FIND_MY_CREEPS).forEach(function (
+				creep
 			)
-	}
+			{
+				costs.set(creep.pos.x, creep.pos.y, 2)
+			})
 
-	room.memory.SetupComplete = true
+			return costs
+		},
+	})
+
+	// Build roads from source to entrance
+	for (var i = 1; i < path.path.length; i++)
+	{
+		room.createConstructionSite(
+			path.path[i].x,
+			path.path[i].y,
+			STRUCTURE_ROAD
+		)
+	}
 }
 
 module.exports = RoomManager

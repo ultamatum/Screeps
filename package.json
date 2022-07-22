@@ -16,7 +16,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-file-append": "0.0.7",
     "grunt-jsbeautifier": "^0.2.13",
-    "grunt-screeps": "^1.5.0",
+    "grunt-screeps": "github:cavejay/grunt-screeps",
     "lodash": "^4.17.21",
     "module-concat": "^2.3.0",
     "time-grunt": "^2.0.0"
