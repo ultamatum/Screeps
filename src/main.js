@@ -5,6 +5,7 @@ var roleUpgrader = require('Roles.Upgrader')
 var roleBuilder = require('Roles.Builder')
 var roleRepairer = require('Roles.Repairer')
 var roleHauler = require('Roles.Hauler')
+var towerController = require('Controllers.Tower')
 
 if (
 	!Memory.SCRIPT_VERSION ||
@@ -34,7 +35,24 @@ function UpdateRooms ()
 	for (var roomName in Game.rooms)
 	{
 		RoomManager.run(Game.rooms[roomName])
-		//UpdateSpawnerText(Game.rooms[roomName])
+
+		//Loop through towers in the room)
+		for (var tower in Game.rooms[roomName].find(
+				FIND_STRUCTURES,
+				{
+					filter: (structure) =>
+					{
+						return (
+							structure.structureType ==
+							STRUCTURE_TOWER
+						)
+					},
+				}
+			))
+		{
+			console.log(JSON.stringify(tower))
+			towerController.run(tower, Game.rooms[roomName])
+		}
 	}
 }
 

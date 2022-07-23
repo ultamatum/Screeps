@@ -364,7 +364,7 @@ function RespawnCreeps (room)
 		energyAvail = Game.rooms[room.name].energyAvailable
 	}
 
-	if (miners.length < 4)
+	if (miners.length < 6)
 	{
 		Spawner.SpawnCreep(
 			room.name,
@@ -377,7 +377,7 @@ function RespawnCreeps (room)
 	}
 	else if (
 		haulers.length <
-		room.find(FIND_MY_STRUCTURES,
+		room.find(FIND_STRUCTURES,
 		{
 			filter: (structure) =>
 			{
@@ -386,7 +386,8 @@ function RespawnCreeps (room)
 					STRUCTURE_CONTAINER
 				)
 			},
-		}).length +
+		}).length *
+		2 +
 		1
 	)
 	{
@@ -399,7 +400,7 @@ function RespawnCreeps (room)
 			)
 		)
 	}
-	else if (upgraders.length < 2)
+	else if (upgraders.length < 4)
 	{
 		Spawner.SpawnCreep(
 			room.name,
@@ -415,11 +416,11 @@ function RespawnCreeps (room)
 		(room.find(FIND_MY_STRUCTURES,
 			{
 				filter: { structureType: STRUCTURE_CONTAINER },
-			}).length < 2 ?
+			}).length >= 2 ?
 			4 :
 			room.find(FIND_CONSTRUCTION_SITES).length /
-			10 +
-			1)
+			5 +
+			2)
 	)
 	{
 		Spawner.SpawnCreep(
@@ -438,8 +439,8 @@ function RespawnCreeps (room)
 			filter: (object) =>
 				object.hits < object.hitsMax,
 		}).length /
-		10 +
-		1
+		20 +
+		2
 	)
 	{
 		Spawner.SpawnCreep(
@@ -709,6 +710,8 @@ function BuildRoads (room)
 	}
 
 	BuildShortestPathToEntrance(room, room.controller.pos)
+
+	//BuildPathFromController(room)
 }
 
 function BuildShortestPathToEntrance (room, from)
@@ -750,7 +753,7 @@ function BuildShortestPathToEntrance (room, from)
 	let path = PathFinder.search(from, entrances,
 	{
 		plainCost: 2,
-		swampCost: 1,
+		swampCost: 7,
 		roomCallback: function (roomName)
 		{
 			let room = Game.rooms[roomName]
@@ -806,6 +809,82 @@ function BuildShortestPathToEntrance (room, from)
 			path.path[i].y,
 			STRUCTURE_ROAD
 		)
+	}
+}
+
+function BuildPathFromController (room)
+{
+	var sources = room.find(FIND_SOURCES)
+
+	for (var i in sources)
+	{
+		let path = PathFinder.search(
+			room.controller.pos,
+			sources[i].pos,
+			{
+				plainCost: 2,
+				swampCost: 7,
+				roomCallback: function (roomName)
+				{
+					let room = Game.rooms[roomName]
+					if (!room) return false
+					let costs = new PathFinder.CostMatrix()
+
+					room.find(FIND_STRUCTURES).forEach(
+						function (structure)
+						{
+							if (
+								structure.structureType ===
+								STRUCTURE_ROAD
+							)
+							{
+								costs.set(
+									structure.pos.x,
+									structure.pos.y,
+									1
+								)
+							}
+							else if (
+								structure.structureType !==
+								STRUCTURE_CONTAINER &&
+								structure.structureType !==
+								STRUCTURE_RAMPART
+							)
+							{
+								costs.set(
+									structure.pos.x,
+									structure.pos.y,
+									0xff
+								)
+							}
+						}
+					)
+
+					room.find(FIND_MY_CREEPS).forEach(
+						function (creep)
+						{
+							costs.set(
+								creep.pos.x,
+								creep.pos.y,
+								2
+							)
+						}
+					)
+
+					return costs
+				},
+			}
+		)
+
+		// Build roads from source to entrance
+		for (var i = 1; i < path.path.length; i++)
+		{
+			room.createConstructionSite(
+				path.path[i].x,
+				path.path[i].y,
+				STRUCTURE_ROAD
+			)
+		}
 	}
 }
 
