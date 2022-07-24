@@ -364,7 +364,7 @@ function RespawnCreeps (room)
 		energyAvail = Game.rooms[room.name].energyAvailable
 	}
 
-	if (miners.length < 6)
+	if (miners.length < 4)
 	{
 		Spawner.SpawnCreep(
 			room.name,
@@ -419,7 +419,7 @@ function RespawnCreeps (room)
 			}).length >= 2 ?
 			4 :
 			room.find(FIND_CONSTRUCTION_SITES).length /
-			5 +
+			15 +
 			2)
 	)
 	{

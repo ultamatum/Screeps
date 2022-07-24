@@ -26,7 +26,6 @@ module.exports.loop = function ()
 
 	GarbageCollection()
 	UpdateRooms()
-	RespawnCreeps()
 	UpdateCreeps()
 }
 
@@ -36,22 +35,27 @@ function UpdateRooms ()
 	{
 		RoomManager.run(Game.rooms[roomName])
 
-		//Loop through towers in the room)
-		for (var tower in Game.rooms[roomName].find(
-				FIND_STRUCTURES,
+		var towers = Game.rooms[roomName].find(
+			FIND_STRUCTURES,
+			{
+				filter: (structure) =>
 				{
-					filter: (structure) =>
-					{
-						return (
-							structure.structureType ==
-							STRUCTURE_TOWER
-						)
-					},
-				}
-			))
+					return (
+						structure.structureType ==
+						STRUCTURE_TOWER &&
+						structure.store[RESOURCE_ENERGY] > 0
+					)
+				},
+			}
+		)
+		//Loop through towers in the room)
+		for (var tower in towers)
 		{
-			console.log(JSON.stringify(tower))
-			towerController.run(tower, Game.rooms[roomName])
+			console.log(JSON.stringify(towers[tower]))
+			towerController.run(
+				towers[tower],
+				Game.rooms[roomName]
+			)
 		}
 	}
 }
@@ -87,8 +91,6 @@ function UpdateCreeps ()
 		}
 	}
 }
-
-function RespawnCreeps () {}
 
 function GarbageCollection ()
 {

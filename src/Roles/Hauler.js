@@ -1,14 +1,18 @@
 var roleHauler = {
 	/** @param {Creep} creep */
-	run: function (creep) {
-		if (creep.store.getUsedCapacity() == 0) {
-			var targets = creep.room.find(FIND_STRUCTURES, {
-				filter: (structure) => {
+	run: function (creep)
+	{
+		if (creep.store.getUsedCapacity() == 0)
+		{
+			var targets = creep.room.find(FIND_STRUCTURES,
+			{
+				filter: (structure) =>
+				{
 					return (
 						structure.structureType ==
-							STRUCTURE_CONTAINER &&
+						STRUCTURE_CONTAINER &&
 						structure.store[RESOURCE_ENERGY] >=
-							0
+						0
 					)
 				},
 			})
@@ -23,26 +27,31 @@ var roleHauler = {
 					RESOURCE_ENERGY
 				) == ERR_NOT_IN_RANGE
 			)
-				creep.moveTo(targets[0], {
+				creep.moveTo(targets[0],
+				{
 					reusePath: 4,
-					visualizePathStyle: {
+					visualizePathStyle:
+					{
 						stroke: '#ffaa00',
 					},
 				})
-		} else {
+		}
+		else
+		{
 			var target = creep.pos.findClosestByPath(
 				FIND_STRUCTURES,
 				{
-					filter: (structure) => {
+					filter: (structure) =>
+					{
 						return (
 							(structure.structureType ==
 								STRUCTURE_EXTENSION ||
 								structure.structureType ==
-									STRUCTURE_SPAWN ||
+								STRUCTURE_SPAWN ||
 								structure.structureType ==
-									STRUCTURE_STORAGE ||
+								STRUCTURE_STORAGE ||
 								structure.structureType ==
-									STRUCTURE_TOWER) &&
+								STRUCTURE_TOWER) &&
 							structure.store.getFreeCapacity(
 								RESOURCE_ENERGY
 							) > 0
@@ -51,15 +60,19 @@ var roleHauler = {
 				}
 			)
 
-			if (target) {
+			if (target)
+			{
 				if (
 					creep.transfer(
 						target,
 						RESOURCE_ENERGY
 					) == ERR_NOT_IN_RANGE
-				) {
-					creep.moveTo(target, {
-						visualizePathStyle: {
+				)
+				{
+					creep.moveTo(target,
+					{
+						visualizePathStyle:
+						{
 							stroke: '#ffffff',
 						},
 					})
