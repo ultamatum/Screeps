@@ -4,56 +4,72 @@ var roleHauler = {
 	{
 		if (creep.store.getUsedCapacity() == 0)
 		{
-			var targets = creep.room.find(FIND_STRUCTURES,
-			{
-				filter: (structure) =>
-				{
-					return (
-						structure.structureType ==
-						STRUCTURE_CONTAINER &&
-						structure.store[RESOURCE_ENERGY] >=
-						0
-					)
-				},
-			})
-
-			targets = _.sortBy(targets, (t) =>
-				t.store.getFreeCapacity(RESOURCE_ENERGY)
-			)
-
-			if (
-				creep.withdraw(
-					targets[0],
-					RESOURCE_ENERGY
-				) == ERR_NOT_IN_RANGE
-			)
-				creep.moveTo(targets[0],
-				{
-					reusePath: 4,
-					visualizePathStyle:
-					{
-						stroke: '#ffaa00',
-					},
-				})
-		}
-		else
-		{
 			if (creep.memory.energyTarget == undefined)
 			{
-				var target = creep.pos.findClosestByPath(
+				var targets = creep.room.find(
 					FIND_STRUCTURES,
 					{
 						filter: (structure) =>
 						{
 							return (
-								(structure.structureType ==
-									STRUCTURE_EXTENSION ||
-									structure.structureType ==
-									STRUCTURE_SPAWN ||
-									structure.structureType ==
-									STRUCTURE_STORAGE ||
-									structure.structureType ==
-									STRUCTURE_TOWER) &&
+								structure.structureType ==
+								STRUCTURE_CONTAINER &&
+								structure.store[
+									RESOURCE_ENERGY
+								] >= 0
+							)
+						},
+					}
+				)
+
+				targets = _.sortBy(targets, (t) =>
+					t.store.getFreeCapacity(RESOURCE_ENERGY)
+				)
+
+				creep.memory.energyTarget = targets[0].id
+			}
+
+			if (
+				creep.withdraw(
+					Game.getObjectById(
+						creep.memory.energyTarget
+					),
+					RESOURCE_ENERGY
+				) == ERR_NOT_IN_RANGE
+			)
+			{
+				creep.moveTo(
+					Game.getObjectById(
+						creep.memory.energyTarget
+					),
+					{
+						reusePath: 4,
+						visualizePathStyle:
+						{
+							stroke: '#ffaa00',
+						},
+					}
+				)
+			}
+			else
+			{
+				creep.memory.energyTarget = undefined
+			}
+		}
+		else
+		{
+			var target
+
+			if (target == undefined)
+			{
+				target = creep.pos.findClosestByPath(
+					FIND_STRUCTURES,
+					{
+						filter: (structure) =>
+						{
+							return (
+								structure.structureType ==
+								STRUCTURE_TOWER &&
 								structure.store.getFreeCapacity(
 									RESOURCE_ENERGY
 								) > 0
@@ -61,32 +77,80 @@ var roleHauler = {
 						},
 					}
 				)
-
-				creep.memory.target = target.id
+			}
+			if (target == undefined)
+			{
+				target = creep.pos.findClosestByPath(
+					FIND_STRUCTURES,
+					{
+						filter: (structure) =>
+						{
+							return (
+								structure.structureType ==
+								STRUCTURE_EXTENSION &&
+								structure.store.getFreeCapacity(
+									RESOURCE_ENERGY
+								) > 0
+							)
+						},
+					}
+				)
 			}
 
-			if (creep.memory.target != undefined)
+			if (target == undefined)
+			{
+				target = creep.pos.findClosestByPath(
+					FIND_STRUCTURES,
+					{
+						filter: (structure) =>
+						{
+							return (
+								structure.structureType ==
+								STRUCTURE_SPAWN &&
+								structure.store.getFreeCapacity(
+									RESOURCE_ENERGY
+								) > 0
+							)
+						},
+					}
+				)
+			}
+
+			if (target == undefined)
+			{
+				target = creep.pos.findClosestByPath(
+					FIND_STRUCTURES,
+					{
+						filter: (structure) =>
+						{
+							return (
+								structure.structureType ==
+								STRUCTURE_STORAGE &&
+								structure.store.getFreeCapacity(
+									RESOURCE_ENERGY
+								) > 0
+							)
+						},
+					}
+				)
+			}
+
+			if (target)
 			{
 				if (
 					creep.transfer(
-						Game.getObjectById(
-							creep.memory.target
-						),
+						target,
 						RESOURCE_ENERGY
 					) == ERR_NOT_IN_RANGE
 				)
 				{
-					creep.moveTo(
-						Game.getObjectById(
-							creep.memory.target
-						),
+					creep.moveTo(target,
+					{
+						visualizePathStyle:
 						{
-							visualizePathStyle:
-							{
-								stroke: '#ffffff',
-							},
-						}
-					)
+							stroke: '#ffffff',
+						},
+					})
 				}
 			}
 		}
