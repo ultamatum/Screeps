@@ -92,7 +92,7 @@ var Respawner = {
 				4 :
 				room.find(FIND_CONSTRUCTION_SITES)
 				.length /
-				15 +
+				25 +
 				2)
 		)
 		{

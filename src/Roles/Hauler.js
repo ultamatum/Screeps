@@ -38,44 +38,55 @@ var roleHauler = {
 		}
 		else
 		{
-			var target = creep.pos.findClosestByPath(
-				FIND_STRUCTURES,
-				{
-					filter: (structure) =>
+			if (creep.memory.energyTarget == undefined)
+			{
+				var target = creep.pos.findClosestByPath(
+					FIND_STRUCTURES,
 					{
-						return (
-							(structure.structureType ==
-								STRUCTURE_EXTENSION ||
-								structure.structureType ==
-								STRUCTURE_SPAWN ||
-								structure.structureType ==
-								STRUCTURE_STORAGE ||
-								structure.structureType ==
-								STRUCTURE_TOWER) &&
-							structure.store.getFreeCapacity(
-								RESOURCE_ENERGY
-							) > 0
-						)
-					},
-				}
-			)
+						filter: (structure) =>
+						{
+							return (
+								(structure.structureType ==
+									STRUCTURE_EXTENSION ||
+									structure.structureType ==
+									STRUCTURE_SPAWN ||
+									structure.structureType ==
+									STRUCTURE_STORAGE ||
+									structure.structureType ==
+									STRUCTURE_TOWER) &&
+								structure.store.getFreeCapacity(
+									RESOURCE_ENERGY
+								) > 0
+							)
+						},
+					}
+				)
 
-			if (target)
+				creep.memory.target = target.id
+			}
+
+			if (creep.memory.target != undefined)
 			{
 				if (
 					creep.transfer(
-						target,
+						Game.getObjectById(
+							creep.memory.target
+						),
 						RESOURCE_ENERGY
 					) == ERR_NOT_IN_RANGE
 				)
 				{
-					creep.moveTo(target,
-					{
-						visualizePathStyle:
+					creep.moveTo(
+						Game.getObjectById(
+							creep.memory.target
+						),
 						{
-							stroke: '#ffffff',
-						},
-					})
+							visualizePathStyle:
+							{
+								stroke: '#ffffff',
+							},
+						}
+					)
 				}
 			}
 		}

@@ -1,3 +1,5 @@
+var masterCreep = require('Roles.MasterCreep')
+
 var roleBuilder = {
 	/** @param {Creep} creep **/
 	run: function (creep)
@@ -8,7 +10,7 @@ var roleBuilder = {
 		)
 		{
 			creep.memory.building = false
-			creep.say('🔄 harvest')
+			creep.say('🔄 refuel')
 		}
 		if (
 			!creep.memory.building &&
@@ -47,65 +49,7 @@ var roleBuilder = {
 		}
 		else
 		{
-			var energy = creep.room
-				.find(FIND_STRUCTURES,
-				{
-					filter: (structure) =>
-					{
-						return (
-							structure.structureType ==
-							STRUCTURE_CONTAINER &&
-							structure.store[
-								RESOURCE_ENERGY
-							] > 0
-						)
-					},
-				})
-				.sort(
-					(a, b) =>
-					a.store[RESOURCE_ENERGY] <
-					b.store[RESOURCE_ENERGY]
-				)[0]
-
-			if (energy)
-			{
-				if (
-					creep.withdraw(
-						energy,
-						RESOURCE_ENERGY
-					) == ERR_NOT_IN_RANGE
-				)
-				{
-					creep.moveTo(energy,
-					{
-						visualizePathStyle:
-						{
-							stroke: '#ffaa00',
-						},
-					})
-				}
-			}
-			else
-			{
-				var source = creep.pos.findClosestByPath(
-					FIND_SOURCES_ACTIVE
-				)
-
-				if (
-					creep.harvest(source) ==
-					ERR_NOT_IN_RANGE
-				)
-				{
-					creep.moveTo(source,
-					{
-						reusePath: 4,
-						visualizePathStyle:
-						{
-							stroke: '#ffaa00',
-						},
-					})
-				}
-			}
+			masterCreep.getEnergy(creep)
 		}
 	},
 }
