@@ -10,6 +10,7 @@ var roleRepairer = {
 		)
 		{
 			creep.memory.repairing = false
+			creep.memory.repairTarget = null
 			creep.say('🔄 refuel')
 		}
 		else if (
@@ -18,7 +19,6 @@ var roleRepairer = {
 		)
 		{
 			creep.memory.repairing = true
-			creep.memory.repairTarget = null
 			creep.say('⚡ repair')
 		}
 
@@ -83,9 +83,11 @@ function GetNewRepairTarget (creep)
 				return (
 					(structure.hits / structure.hitsMax) *
 					100 <=
-					10 &&
+					20 &&
 					structure.structureType !=
-					STRUCTURE_WALL
+					STRUCTURE_WALL &&
+					structure.structureType !=
+					STRUCTURE_RAMPART
 				)
 			},
 		}
@@ -106,8 +108,6 @@ function GetNewRepairTarget (creep)
 						structure.structureType !=
 						STRUCTURE_WALL &&
 						structure.structureType !=
-						STRUCTURE_ROAD &&
-						structure.structureType !=
 						STRUCTURE_RAMPART
 					)
 				},
@@ -125,8 +125,10 @@ function GetNewRepairTarget (creep)
 					return (
 						(structure.structureType ==
 							STRUCTURE_ROAD ||
-							structure.structureType ==
+							structure.structureType !=
 							STRUCTURE_RAMPART) &&
+						structure.structureType !=
+						STRUCTURE_WALL &&
 						(structure.hits /
 							structure.hitsMax) *
 						100 <=
@@ -138,6 +140,7 @@ function GetNewRepairTarget (creep)
 	}
 
 	if (mostDamagedStructure.length == 0)
+	{
 		mostDamagedStructure = creep.room.find(
 			FIND_STRUCTURES,
 			{
@@ -151,8 +154,10 @@ function GetNewRepairTarget (creep)
 				},
 			}
 		)
+	}
 
 	if (mostDamagedStructure.length == 0)
+	{
 		mostDamagedStructure = creep.room.find(
 			FIND_STRUCTURES,
 			{
@@ -164,6 +169,7 @@ function GetNewRepairTarget (creep)
 				},
 			}
 		)
+	}
 
 	mostDamagedStructure = _.sortBy(
 		mostDamagedStructure,

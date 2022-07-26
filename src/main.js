@@ -51,7 +51,6 @@ function UpdateRooms ()
 		//Loop through towers in the room)
 		for (var tower in towers)
 		{
-			console.log(JSON.stringify(towers[tower]))
 			towerController.run(
 				towers[tower],
 				Game.rooms[roomName]

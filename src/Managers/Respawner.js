@@ -55,9 +55,8 @@ var Respawner = {
 						STRUCTURE_CONTAINER
 					)
 				},
-			}).length *
-			2 +
-			1
+			}).length +
+			2
 		)
 		{
 			Spawner.SpawnCreep(
@@ -112,7 +111,7 @@ var Respawner = {
 				filter: (object) =>
 					object.hits < object.hitsMax,
 			}).length /
-			20 +
+			30 +
 			2
 		)
 		{

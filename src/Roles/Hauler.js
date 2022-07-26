@@ -70,9 +70,13 @@ var roleHauler = {
 							return (
 								structure.structureType ==
 								STRUCTURE_TOWER &&
-								structure.store.getFreeCapacity(
+								structure.store.getUsedCapacity(
 									RESOURCE_ENERGY
-								) > 0
+								) /
+								structure.store.getCapacity(
+									RESOURCE_ENERGY
+								) <
+								0.2
 							)
 						},
 					}
@@ -106,7 +110,49 @@ var roleHauler = {
 						{
 							return (
 								structure.structureType ==
+								STRUCTURE_TOWER &&
+								structure.store.getUsedCapacity(
+									RESOURCE_ENERGY
+								) /
+								structure.store.getCapacity(
+									RESOURCE_ENERGY
+								) <
+								0.49
+							)
+						},
+					}
+				)
+			}
+
+			if (target == undefined)
+			{
+				target = creep.pos.findClosestByPath(
+					FIND_STRUCTURES,
+					{
+						filter: (structure) =>
+						{
+							return (
+								structure.structureType ==
 								STRUCTURE_SPAWN &&
+								structure.store.getFreeCapacity(
+									RESOURCE_ENERGY
+								) > 0
+							)
+						},
+					}
+				)
+			}
+
+			if (target == undefined)
+			{
+				target = creep.pos.findClosestByPath(
+					FIND_STRUCTURES,
+					{
+						filter: (structure) =>
+						{
+							return (
+								structure.structureType ==
+								STRUCTURE_TOWER &&
 								structure.store.getFreeCapacity(
 									RESOURCE_ENERGY
 								) > 0
